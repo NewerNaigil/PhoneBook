@@ -7,7 +7,7 @@ public class PhoneBookRecord {
     private String number;
 
     public PhoneBookRecord(String name, String number){
-        ++ idCounter;
+        ++idCounter;
         this.id = idCounter;
         this.name = name;
         this.number = number;

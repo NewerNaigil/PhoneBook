@@ -15,6 +15,11 @@ public class DemoController {
 
     private UserStorage userStorage = new UserStorage();
 
+    @PostMapping("/create")
+    public void createUser (@RequestBody String userName){
+        userStorage.createUser(userName);
+    }
+
     @PostMapping("/createUser")
     public void createUser(@RequestBody String userName, List<PhoneBookRecord> records){
         userStorage.createUser(userName, records);
@@ -24,6 +29,10 @@ public class DemoController {
     public List<User> userList(){
         return userStorage.getAllUser();
     }
+
+
+
+
 
 
 

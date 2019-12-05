@@ -15,16 +15,22 @@ public class UserStorage {
     private static Map<Long, User> store = new HashMap();
     private static Long key = 0L;
 
+    public void createUser (String userName){
+        ++key;
+        store.put(key, new User(userName));
+    }
 
     public void createUser (String userName, List<PhoneBookRecord> records){
         ++key;
         store.put(key, new User(userName, records));
     }
 
+
+
     public List<User> getAllUser (){
         List<User> userList = new ArrayList<>();
         userList.addAll(store.values());
         return userList;
     }
-//11
+
 }
