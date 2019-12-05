@@ -4,7 +4,6 @@ import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +20,11 @@ public class UserStorage {
         store.put(key, new User(userName, records));
     }
 
-    public List<User> getAllUser (){
-        List<User> userList = new ArrayList<>();
-        userList.addAll(store.values());
-        return userList;
-    }
+//    public List<User> getAllUser (){
+//        List<User> userList = new ArrayList<>();
+//        userList.addAll(store.values());
+//        return userList;
+//    }
 
 
 }
