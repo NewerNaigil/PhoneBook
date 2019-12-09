@@ -15,22 +15,24 @@ public class UserStorage {
     private static Map<Long, User> store = new HashMap();
     private static long key = 0;
 
-    public void createUser(String userName){
+    // Методы для работы с пользователем
+
+    public void createUser(String firstName, String lastName){
         ++key;
-        store.put(key, new User(userName));
+        store.put(key, new User(firstName, lastName));
     }
 
-    public void createUser(String userName, List<PhoneBookRecord> phoneBook){
+    public void createUser(String firstName, String lastName, List<PhoneBookRecord> phoneBook){
         ++key;
-        store.put(key, new User(userName, phoneBook));
+        store.put(key, new User(firstName, lastName, phoneBook));
     }
 
-    public void deleteUser(long id){
-        store.remove(id);
+    public void deleteUser(long userId){
+        store.remove(userId);
     }
 
-    public User getUserById(long id){
-        return store.get(id);
+    public User getUserById(long userId){
+        return store.get(userId);
     }
 
     public List<User> getAllUser(){
@@ -39,7 +41,20 @@ public class UserStorage {
         return userList;
     }
 
-    public void pathUser(long id, String userName){
-        store.get(id).setUserName(userName);
+    public void pathUser(long userId, String firstName){
+        store.get(userId).setFirstName(firstName);
     }
+
+
+    // Методы для работы с телефонной книгой
+
+    public void createRecord(long userId, String recordName, String recordNumber){
+        store.get(userId).getPhoneBook().add(new PhoneBookRecord(recordName, recordNumber));
+    }
+
+    public PhoneBookRecord getRecordById(long userId, Integer recordId){
+        return store.get(userId).getPhoneBook().get(recordId);
+    }
+
+
 }

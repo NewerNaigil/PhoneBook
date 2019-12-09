@@ -2,38 +2,38 @@ package com.bulavin.PhoneBook.model;
 
 public class PhoneBookRecord {
     private static Long idCounter = 0L;
-    private Long id;
-    private String name;
-    private String number;
+    private Long recordId;
+    private String recordName;
+    private String recordNumber;
 
-    public PhoneBookRecord(String name, String number){
+    public PhoneBookRecord(String recordName, String recordNumber){
         ++idCounter;
-        this.id = idCounter;
-        this.name = name;
-        this.number = number;
+        this.recordId = idCounter;
+        this.recordName = recordName;
+        this.recordNumber = recordNumber;
     }
 
-    public Long getId() {
-        return id;
+    public Long getRecordId() {
+        return recordId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecordId(Long recordId) {
+        this.recordId = recordId;
     }
 
-    public String getName() {
-        return name;
+    public String getRecordName() {
+        return recordName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRecordName(String recordName) {
+        this.recordName = recordName;
     }
 
-    public String getNumber() {
-        return number;
+    public String getRecordNumber() {
+        return recordNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setRecordNumber(String recordNumber) {
+        this.recordNumber = recordNumber;
     }
 }

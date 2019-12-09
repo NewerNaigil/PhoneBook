@@ -1,5 +1,6 @@
 package com.bulavin.PhoneBook.restControllers;
 
+import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import com.bulavin.PhoneBook.storage.UserStorage;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,13 @@ public class DemoController {
     private UserStorage userStorage = new UserStorage();
 
     @PostMapping("/create")
-    public void createUser(@RequestParam String userName){
-        userStorage.createUser(userName);
+    public void createUser(@RequestParam String firstName, @RequestParam String lastName){
+        userStorage.createUser(firstName, lastName);
     }
 
     @PostMapping("/createUser")
     public void createUser(@RequestBody User user){
-        userStorage.createUser(user.getUserName(), user.getPhoneBook());
+        userStorage.createUser(user.getFirstName(), user.getLastName(), user.getPhoneBook());
     }
 
     @GetMapping("/getAllUser")
@@ -27,20 +28,30 @@ public class DemoController {
         return userStorage.getAllUser();
     }
 
-    @GetMapping("/getUser/{id}")
-    public  User user(@PathVariable long id){
-        return userStorage.getUserById(id);
+    @GetMapping("/getUser/{userId}")
+    public  User user(@PathVariable long userId){
+        return userStorage.getUserById(userId);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
-    public void deleteUser(@PathVariable long id){
-        userStorage.deleteUser(id);
+    @DeleteMapping("/deleteUser/{userId}")
+    public void deleteUser(@PathVariable long userId){
+        userStorage.deleteUser(userId);
     }
 
-    @PatchMapping("/pathUser/{id}/{userName}")
-    public void pathUser(@PathVariable long id, @PathVariable String userName){
-        userStorage.pathUser(id, userName);
+    @PatchMapping("/pathUser/{userId}/{firstName}")
+    public void pathUser(@PathVariable long userId, @PathVariable String firstName){
+        userStorage.pathUser(userId, firstName);
     }
 
+    @PostMapping("/createRecord")
+    public void createRecord(@RequestParam long id,
+                             @RequestParam String recordName,
+                             @RequestParam String recordNumber){
+        userStorage.createRecord(id, recordName, recordNumber);
+    }
 
+    @GetMapping("/getRecord/{userId}/{recordId}")
+    public PhoneBookRecord record(@PathVariable long userId, Integer recordId){
+        return userStorage.getRecordById(userId, recordId);
+    }
 }
