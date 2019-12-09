@@ -6,16 +6,16 @@ import java.util.List;
 
 public class User {
     private String userName;
-    private List<PhoneBookRecord> records = new ArrayList<>();
+    private List<PhoneBookRecord> phoneBook = new ArrayList<>();
 
 
     public User(String userName){
         this.userName = userName;
     }
 
-    public User(String userName, List<PhoneBookRecord> records) {
+    public User(String userName, List<PhoneBookRecord> phoneBook) {
         this.userName = userName;
-        this.records = records;
+        this.phoneBook = phoneBook;
     }
 
 
@@ -26,19 +26,15 @@ public class User {
         return userName;
     }
 
-    public List<PhoneBookRecord> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<PhoneBookRecord> records) {
-        this.records = records;
-    }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    public List<PhoneBookRecord> getPhoneBook() {
+        return phoneBook;
+    }
 
-
-
+    public void setPhoneBook(List<PhoneBookRecord> phoneBook) {
+        this.phoneBook = phoneBook;
+    }
 }

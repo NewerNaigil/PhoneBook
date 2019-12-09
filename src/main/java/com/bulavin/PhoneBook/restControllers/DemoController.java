@@ -19,7 +19,7 @@ public class DemoController {
 
     @PostMapping("/createUser")
     public void createUser(@RequestBody User user){
-        userStorage.createUser(user.getUserName(), user.getRecords());
+        userStorage.createUser(user.getUserName(), user.getPhoneBook());
     }
 
     @GetMapping("/getAllUser")
@@ -36,4 +36,11 @@ public class DemoController {
     public void deleteUser(@PathVariable long id){
         userStorage.deleteUser(id);
     }
+
+    @PatchMapping("/pathUser/{id}/{userName}")
+    public void pathUser(@PathVariable long id, @PathVariable String userName){
+        userStorage.pathUser(id, userName);
+    }
+
+
 }

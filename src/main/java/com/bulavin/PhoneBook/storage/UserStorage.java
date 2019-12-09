@@ -20,12 +20,12 @@ public class UserStorage {
         store.put(key, new User(userName));
     }
 
-    public void createUser(String userName, List<PhoneBookRecord> records){
+    public void createUser(String userName, List<PhoneBookRecord> phoneBook){
         ++key;
-        store.put(key, new User(userName, records));
+        store.put(key, new User(userName, phoneBook));
     }
 
-    public void deleteUser (long id){
+    public void deleteUser(long id){
         store.remove(id);
     }
 
@@ -39,7 +39,7 @@ public class UserStorage {
         return userList;
     }
 
-//    public void pathUser(long id){
-//        store.put()
-//    }
+    public void pathUser(long id, String userName){
+        store.get(id).setUserName(userName);
+    }
 }
