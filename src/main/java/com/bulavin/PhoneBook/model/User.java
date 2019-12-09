@@ -9,7 +9,7 @@ public class User {
     private List<PhoneBookRecord> records = new ArrayList<>();
 
 
-    public User (String userName){
+    public User(String userName){
         this.userName = userName;
     }
 
@@ -17,6 +17,7 @@ public class User {
         this.userName = userName;
         this.records = records;
     }
+
 
 
 
