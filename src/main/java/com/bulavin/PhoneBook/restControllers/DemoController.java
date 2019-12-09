@@ -26,4 +26,14 @@ public class DemoController {
     public List<User> userList(){
         return userStorage.getAllUser();
     }
+
+    @GetMapping("/getUser/{id}")
+    public  User user(@PathVariable long id){
+        return userStorage.getUserById(id);
     }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public void deleteUser(@PathVariable long id){
+        userStorage.deleteUser(id);
+    }
+}

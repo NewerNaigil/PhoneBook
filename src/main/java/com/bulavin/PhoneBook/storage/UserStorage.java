@@ -13,24 +13,33 @@ import java.util.Map;
 
 public class UserStorage {
     private static Map<Long, User> store = new HashMap();
-    private static Long key = 0L;
+    private static long key = 0;
 
-    public void createUser (String userName){
+    public void createUser(String userName){
         ++key;
         store.put(key, new User(userName));
     }
 
-    public void createUser (String userName, List<PhoneBookRecord> records){
+    public void createUser(String userName, List<PhoneBookRecord> records){
         ++key;
         store.put(key, new User(userName, records));
     }
 
+    public void deleteUser (long id){
+        store.remove(id);
+    }
 
+    public User getUserById(long id){
+        return store.get(id);
+    }
 
-    public List<User> getAllUser (){
+    public List<User> getAllUser(){
         List<User> userList = new ArrayList<>();
         userList.addAll(store.values());
         return userList;
     }
 
+//    public void pathUser(long id){
+//        store.put()
+//    }
 }
