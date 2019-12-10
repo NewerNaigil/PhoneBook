@@ -4,7 +4,6 @@ import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +34,8 @@ public class UserStorage {
         return store.get(userId);
     }
 
-    public List<User> getAllUser(){
-        List<User> userList = new ArrayList<>();
-        userList.addAll(store.values());
-        return userList;
+    public Map<Long, User> getAllUser(){
+        return store;
     }
 
     public void pathUser(long userId, String firstName){
@@ -52,9 +49,28 @@ public class UserStorage {
         store.get(userId).getPhoneBook().add(new PhoneBookRecord(recordName, recordNumber));
     }
 
-    public PhoneBookRecord getRecordById(long userId, Integer recordId){
-        return store.get(userId).getPhoneBook().get(recordId);
+    public PhoneBookRecord getRecordById(long userId, long recordId){
+        PhoneBookRecord val = null;
+        for (PhoneBookRecord records : store.get(userId).getPhoneBook()){
+            if (records.getRecordId() == recordId) {
+                val = records;
+                break;
+            }
+        }
+        return val;
     }
+
+    public void deleteRecord(long userId, long recordId){
+        PhoneBookRecord val = null;
+        for (PhoneBookRecord records : store.get(userId).getPhoneBook()){
+            if (records.getRecordId() == recordId) {
+                store.get(userId).getPhoneBook().remove(records);
+                break;
+            }
+        }
+    }
+
+
 
 
 }

@@ -5,7 +5,7 @@ import com.bulavin.PhoneBook.model.User;
 import com.bulavin.PhoneBook.storage.UserStorage;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DemoController {
@@ -24,7 +24,7 @@ public class DemoController {
     }
 
     @GetMapping("/getAllUser")
-    public List<User> userList(){
+    public Map<Long, User> userList(){
         return userStorage.getAllUser();
     }
 
@@ -51,7 +51,12 @@ public class DemoController {
     }
 
     @GetMapping("/getRecord/{userId}/{recordId}")
-    public PhoneBookRecord record(@PathVariable long userId, Integer recordId){
+    public PhoneBookRecord record(@PathVariable long userId, @PathVariable Integer recordId){
         return userStorage.getRecordById(userId, recordId);
+    }
+
+    @DeleteMapping("/deleteRecord/{userId}/{recordId}")
+    public void deleteRecord(@PathVariable long userId, @PathVariable Integer recordId){
+        userStorage.deleteRecord(userId, recordId);
     }
 }

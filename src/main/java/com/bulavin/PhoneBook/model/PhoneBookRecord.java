@@ -13,6 +13,7 @@ public class PhoneBookRecord {
         this.recordNumber = recordNumber;
     }
 
+
     public Long getRecordId() {
         return recordId;
     }
