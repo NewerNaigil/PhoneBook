@@ -4,6 +4,7 @@ import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,19 @@ public class UserStorage {
         return store;
     }
 
-    public void pathUser(long userId, String firstName){
+    public void pathUser(long userId, String firstName, String lastName){
         store.get(userId).setFirstName(firstName);
+        store.get(userId).setLastName(lastName);
+    }
+
+    public List<User> searchUser(String searchRequest){
+        List <User> userList = new ArrayList<>();
+        for (User user : store.values()){
+            if (user.getFirstName().toUpperCase().contains(searchRequest.toUpperCase())){
+                userList.add(user);
+            }
+        }
+        return userList;
     }
 
 
@@ -50,27 +62,43 @@ public class UserStorage {
     }
 
     public PhoneBookRecord getRecordById(long userId, long recordId){
-        PhoneBookRecord val = null;
         for (PhoneBookRecord records : store.get(userId).getPhoneBook()){
             if (records.getRecordId() == recordId) {
-                val = records;
-                break;
+                return records;
             }
         }
-        return val;
+        return null;
     }
 
     public void deleteRecord(long userId, long recordId){
         PhoneBookRecord val = null;
-        for (PhoneBookRecord records : store.get(userId).getPhoneBook()){
+        store.get(userId).getPhoneBook().removeIf(records -> records.getRecordId() == recordId);
+    }
+
+    public void pathRecord(long userId, long recordId, String recordName, String recordNumber) {
+        PhoneBookRecord val = null;
+        for (PhoneBookRecord records : store.get(userId).getPhoneBook()) {
             if (records.getRecordId() == recordId) {
-                store.get(userId).getPhoneBook().remove(records);
+                records.setRecordName(recordName);
+                records.setRecordNumber(recordNumber);
                 break;
             }
         }
     }
 
+    public List<PhoneBookRecord> getAllRecordsUser(long userId){
+        return store.get(userId).getPhoneBook();
+    }
 
+    public List<PhoneBookRecord> searchRecord(long userId, String searchRequest){
+        List<PhoneBookRecord> recordList = new ArrayList<>();
+        for (PhoneBookRecord record : store.get(userId).getPhoneBook()){
+            if (record.getRecordNumber().equals(searchRequest)){
+                recordList.add(record);
+            }
+        }
+        return recordList;
 
+    }
 
 }
