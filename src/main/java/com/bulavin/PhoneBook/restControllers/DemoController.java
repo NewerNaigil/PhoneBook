@@ -3,6 +3,7 @@ package com.bulavin.PhoneBook.restControllers;
 import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import com.bulavin.PhoneBook.storage.UserStorage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.Map;
 @RestController
 public class DemoController {
 
-
-    private UserStorage userStorage = new UserStorage();
+    @Autowired
+    private UserStorage userStorage;
 
     @PostMapping("/create")
     public void createUser(@RequestParam String firstName,

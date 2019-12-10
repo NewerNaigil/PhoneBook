@@ -76,12 +76,11 @@ public class UserStorage {
     }
 
     public void pathRecord(long userId, long recordId, String recordName, String recordNumber) {
-        PhoneBookRecord val = null;
         for (PhoneBookRecord records : store.get(userId).getPhoneBook()) {
             if (records.getRecordId() == recordId) {
                 records.setRecordName(recordName);
                 records.setRecordNumber(recordNumber);
-                break;
+                return;
             }
         }
     }
