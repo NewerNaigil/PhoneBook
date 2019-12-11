@@ -15,7 +15,7 @@ public class UserStorage {
     private static Map<Long, User> store = new HashMap();
     private static long key = 0;
 
-    // Методы для работы с пользователем
+    // Методы для работы с пользователем!
 
     public void createUser(String firstName, String lastName){
         ++key;
@@ -55,7 +55,7 @@ public class UserStorage {
     }
 
 
-    // Методы для работы с телефонной книгой
+    // Методы для работы с телефонной книгой!
 
     public void createRecord(long userId, String recordName, String recordNumber){
         store.get(userId).getPhoneBook().add(new PhoneBookRecord(recordName, recordNumber));
