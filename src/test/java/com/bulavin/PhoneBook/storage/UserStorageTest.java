@@ -27,9 +27,9 @@ class UserStorageTest {
         List<PhoneBookRecord> phoneBook = new ArrayList<>();
         phoneBook.add(new PhoneBookRecord("Petya", "111111"));
         phoneBook.add(new PhoneBookRecord("Misha", "222222"));
-        User user = new User("Lena", "Ivanova", phoneBook);
+        User user = new User("Lena", "Ivanova");
 
-        testStore.createUser("Lena", "Ivanova", phoneBook);
+        testStore.createUser("Lena", "Ivanova");
 
         Assert.assertEquals(user, UserStorage.getStore().get(1L));
 
@@ -161,21 +161,98 @@ class UserStorageTest {
 
     @Test
     void getRecordById() {
+
+        UserStorage testStore = new UserStorage();
+        List<PhoneBookRecord> phoneBook = new ArrayList<>();
+        phoneBook.add(new PhoneBookRecord("Petya", "111111"));
+        phoneBook.add(new PhoneBookRecord("Misha", "222222"));
+        User user1 = new User("Lena", "Ivanova", phoneBook);
+
+        UserStorage.getStore().put(1L, user1);
+
+        PhoneBookRecord expected = testStore.getRecordById(1, 2);
+        PhoneBookRecord actual = new PhoneBookRecord("Misha","222222");
+        actual.setRecordId(2L);
+
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
     void deleteRecord() {
+
+        UserStorage testStore = new UserStorage();
+        List<PhoneBookRecord> phoneBook = new ArrayList<>();
+        phoneBook.add(new PhoneBookRecord("Petya", "111111"));
+        phoneBook.add(new PhoneBookRecord("Misha", "222222"));
+        User user1 = new User("Lena", "Ivanova", phoneBook);
+
+        UserStorage.getStore().put(1L, user1);
+
+        testStore.deleteRecord(1,2);
+
+        List<PhoneBookRecord> expected = new ArrayList<>();
+        expected.add(new PhoneBookRecord("Petya", "111111"));
+        expected.get(0).setRecordId(1L);
+
+        Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook(), expected);
     }
 
     @Test
     void pathRecord() {
+
+        UserStorage testStore = new UserStorage();
+        List<PhoneBookRecord> phoneBook = new ArrayList<>();
+        phoneBook.add(new PhoneBookRecord("Petya", "111111"));
+        phoneBook.add(new PhoneBookRecord("Misha", "222222"));
+        User user1 = new User("Lena", "Ivanova", phoneBook);
+
+        UserStorage.getStore().put(1L, user1);
+
+        testStore.pathRecord(1, 1, "Dasha", "333333");
+
+        PhoneBookRecord expected = new PhoneBookRecord("Dasha", "333333");
+        expected.setRecordId(1L);
+
+        Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook().get(0), expected);
     }
 
     @Test
     void getAllRecordsUser() {
+
+        UserStorage testStore = new UserStorage();
+        List<PhoneBookRecord> phoneBook = new ArrayList<>();
+        phoneBook.add(new PhoneBookRecord("Petya", "111111"));
+        phoneBook.add(new PhoneBookRecord("Misha", "222222"));
+        User user1 = new User("Lena", "Ivanova", phoneBook);
+
+        UserStorage.getStore().put(1L, user1);
+
+        List<PhoneBookRecord> actual = new ArrayList<>(testStore.getAllRecordsUser(1));
+        List<PhoneBookRecord> expected = new ArrayList<>();
+        expected.add(new PhoneBookRecord("Petya", "111111"));
+        expected.get(0).setRecordId(1L);
+        expected.add(new PhoneBookRecord("Misha", "222222"));
+        expected.get(1).setRecordId(2L);
+
+        Assert.assertEquals(actual, expected);
+
     }
 
     @Test
     void searchRecord() {
+        UserStorage testStore = new UserStorage();
+        List<PhoneBookRecord> phoneBook = new ArrayList<>();
+        phoneBook.add(new PhoneBookRecord("Petya", "111111"));
+        phoneBook.add(new PhoneBookRecord("Misha", "222222"));
+        User user1 = new User("Lena", "Ivanova", phoneBook);
+
+        UserStorage.getStore().put(1L, user1);
+
+        List<PhoneBookRecord> actual = new ArrayList<>(testStore.searchRecord(1, "222222"));
+        List<PhoneBookRecord> expected = new ArrayList<>();
+        expected.add(0, new PhoneBookRecord ("Misha", "222222"));
+        expected.get(0).setRecordId(2L);
+
+        Assert.assertEquals(expected, actual);
     }
 }
