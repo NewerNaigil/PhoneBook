@@ -97,7 +97,14 @@ public class UserStorage {
             }
         }
         return recordList;
-
     }
 
+
+    public static Map<Long, User> getStore() {
+        return store;
+    }
+
+    public static void setStore(Map<Long, User> store) {
+        UserStorage.store = store;
+    }
 }

@@ -22,6 +22,22 @@ public class User {
         this.phoneBook = phoneBook;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        User user = (User) o;
+        return firstName.equals(user.firstName) &&
+                lastName.equals(user.lastName) &&
+                phoneBook.equals(user.phoneBook);
+    }
+
 
     public String getFirstName() {
         return firstName;
