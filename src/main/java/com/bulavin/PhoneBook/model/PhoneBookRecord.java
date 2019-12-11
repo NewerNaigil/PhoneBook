@@ -13,6 +13,22 @@ public class PhoneBookRecord {
         this.recordNumber = recordNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        PhoneBookRecord record = (PhoneBookRecord) o;
+        return recordId.equals(record.recordId) &&
+                recordName.equals(record.recordName) &&
+                recordNumber.equals(record.recordNumber);
+    }
+
 
     public Long getRecordId() {
         return recordId;
