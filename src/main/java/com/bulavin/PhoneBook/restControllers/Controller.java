@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class DemoController {
+public class Controller {
 
     @Autowired
     private UserStorage userStorage;
@@ -27,12 +27,12 @@ public class DemoController {
     }
 
     @GetMapping("/getAllUser")
-    public Map<Long, User> userList(){
+    public Map<Long, User> getAllUser(){
         return userStorage.getAllUser();
     }
 
     @GetMapping("/getUser/{userId}")
-    public  User user(@PathVariable long userId){
+    public  User getUserById(@PathVariable long userId){
         return userStorage.getUserById(userId);
     }
 
@@ -65,8 +65,8 @@ public class DemoController {
     }
 
     @GetMapping("/getRecord/{userId}/{recordId}")
-    public PhoneBookRecord record(@PathVariable long userId,
-                                  @PathVariable long recordId){
+    public PhoneBookRecord getRecordById(@PathVariable long userId,
+                                         @PathVariable long recordId){
         return userStorage.getRecordById(userId, recordId);
     }
 
@@ -85,7 +85,7 @@ public class DemoController {
     }
 
     @GetMapping("/getAllRecordsUser/{userId}")
-    public List<PhoneBookRecord> allRecordsUser(@PathVariable long userId){
+    public List<PhoneBookRecord> getAllRecordsUser(@PathVariable long userId){
         return userStorage.getAllRecordsUser(userId);
     }
 
