@@ -53,4 +53,8 @@ public class PhoneBookRecord {
     public void setRecordNumber(String recordNumber) {
         this.recordNumber = recordNumber;
     }
+
+    public static void setIdCounter(Long idCounter) {
+        PhoneBookRecord.idCounter = idCounter;
+    }
 }

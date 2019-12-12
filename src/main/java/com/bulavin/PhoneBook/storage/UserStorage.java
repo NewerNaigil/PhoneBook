@@ -104,7 +104,11 @@ public class UserStorage {
         return store;
     }
 
-    public static void setStore(Map<Long, User> store) {
-        UserStorage.store = store;
+    public static long getKey() {
+        return key;
+    }
+
+    public static void setKey(long key) {
+        UserStorage.key = key;
     }
 }
