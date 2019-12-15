@@ -13,28 +13,33 @@ import java.util.Map;
 
 public class UserStorage {
     private static Map<Long, User> store = new HashMap();
-    private static long key = 0;
 
     // Методы для работы с пользователем!
 
     public void createUser(String firstName, String lastName){
-        ++key;
-        store.put(key, new User(firstName, lastName));
+        User newUser = new User(firstName, lastName);
+        store.put(newUser.getUserID(), newUser);
     }
 
     public String createUser(String firstName, String lastName, List<PhoneBookRecord> phoneBook){
-        ++key;
         if (firstName == null){
-            return "Нет имени";
+            return "Не задано имя пользователя";
         }
         else {
-            store.put(key, new User(firstName, lastName, phoneBook));
+            User newUser = new User(firstName, lastName, phoneBook);
+            store.put(newUser.getUserID(), newUser);
             return "Пользователь создан. Имя: " + firstName;
         }
     }
 
-    public void deleteUser(long userId){
-        store.remove(userId);
+    public String deleteUser(long userId){
+        if (store.containsKey(userId)) {
+            store.remove(userId);
+            return "Пользователь удалён";
+        }
+        else {
+            return "Пользователь с ID: "+userId+" не существует";
+        }
     }
 
     public User getUserById(long userId){
@@ -45,9 +50,15 @@ public class UserStorage {
         return store;
     }
 
-    public void pathUser(long userId, String firstName, String lastName){
-        store.get(userId).setFirstName(firstName);
-        store.get(userId).setLastName(lastName);
+    public String pathUser(long userId, String firstName, String lastName){
+        if (store.containsKey(userId)){
+            store.get(userId).setFirstName(firstName);
+            store.get(userId).setLastName(lastName);
+            return "Пользователь с ID: "+userId+" изменён.";
+        }
+        else {
+            return "Пользователь с ID: "+userId+" не существует.";
+        }
     }
 
     public List<User> searchUser(String searchRequest){
@@ -110,11 +121,11 @@ public class UserStorage {
         return store;
     }
 
-    public static long getKey() {
-        return key;
-    }
-
-    public static void setKey(long key) {
-        UserStorage.key = key;
-    }
+//    public static long getKey() {
+//        return key;
+//    }
+//
+//    public static void setKey(long key) {
+//        UserStorage.key = key;
+//    }
 }

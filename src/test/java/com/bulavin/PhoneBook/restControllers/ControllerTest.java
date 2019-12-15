@@ -17,8 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -132,23 +131,56 @@ public class ControllerTest {
                                             "\"recordNumber\":\"333333\"}]}}"));
     }
 
-//    @Test
-//    public void getUserById() {
-//
-//        UserStorage.getStore().put(1L, userP1);
-//
-//        this.mockMvc.perform(get("/getUserById").param())
-//
-//    }
-//
-//    @Test
-//    public void deleteUser() {
-//    }
-//
-//    @Test
-//    public void pathUser() {
-//    }
-//
+    @Test
+    public void getUserById() throws Exception{
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(get("/getUser/1").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"userID\":1,\"firstName\":\"Lena\",\"lastName\":\"Ivanova\",\"phoneBook\":[{\"recordId\":1,\"recordName\":\"Petya\",\"recordNumber\":\"111111\"},{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"},{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]}"));
+    }
+
+    @Test
+    public void deleteUser() throws Exception {
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(delete("/deleteUser/").param("userId", "1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("Пользователь удалён"));
+
+        this.mockMvc.perform(delete("/deleteUser/").param("userId", "2"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("Пользователь с ID: 2 не существует"));
+
+    }
+
+    @Test
+    public void pathUser() throws Exception {
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(patch("/pathUser")
+                .param("userId", "1")
+                .param("firstName", "Vika")
+                .param("lastName", "Simon"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("Пользователь с ID: 1 изменён."));
+
+        this.mockMvc.perform(patch("/pathUser")
+                .param("userId", "2")
+                .param("firstName", "Vika")
+                .param("lastName", "Simon"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("Пользователь с ID: 2 не существует."));
+    }
+
 //    @Test
 //    public void searchUser() {
 //    }

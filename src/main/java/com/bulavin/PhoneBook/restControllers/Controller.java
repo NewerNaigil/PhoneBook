@@ -37,15 +37,15 @@ public class Controller {
     }
 
     @DeleteMapping("/deleteUser")
-    public void deleteUser(@RequestParam long userId){
-        userStorage.deleteUser(userId);
+    public String deleteUser(@RequestParam long userId){
+        return userStorage.deleteUser(userId);
     }
 
     @PatchMapping("/pathUser")
-    public void pathUser(@RequestParam long userId,
+    public String pathUser(@RequestParam long userId,
                          @RequestParam String firstName,
                          @RequestParam String lastName){
-        userStorage.pathUser(userId, firstName, lastName);
+        return userStorage.pathUser(userId, firstName, lastName);
     }
 
     @GetMapping("/searchUser/{searchRequest}")

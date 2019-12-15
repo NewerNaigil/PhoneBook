@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    private long userID;
+    private static long idCounter;
     private String firstName;
     private String lastName;
     private List<PhoneBookRecord> phoneBook = new ArrayList<>();
@@ -12,11 +14,15 @@ public class User {
     public User(){}
 
     public User(String firstName, String lastName){
+        idCounter++;
+        this.userID = idCounter;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
     public User(String firstName, String lastName, List<PhoneBookRecord> phoneBook) {
+        idCounter++;
+        this.userID = idCounter;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneBook = phoneBook;
@@ -38,6 +44,9 @@ public class User {
                 phoneBook.equals(user.phoneBook);
     }
 
+    public long getUserID() {
+        return userID;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -61,5 +70,9 @@ public class User {
 
     public void setPhoneBook(List<PhoneBookRecord> phoneBook) {
         this.phoneBook = phoneBook;
+    }
+
+    public static void setIdCounter(long idCounter) {
+        User.idCounter = idCounter;
     }
 }

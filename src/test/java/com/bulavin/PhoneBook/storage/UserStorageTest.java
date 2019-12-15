@@ -53,7 +53,7 @@ public class UserStorageTest {
     @After
     public void cleanUp(){
         UserStorage.getStore().clear();
-        UserStorage.setKey(0);
+        User.setIdCounter(0);
         PhoneBookRecord.setIdCounter(0L);
     }
 
@@ -62,7 +62,7 @@ public class UserStorageTest {
 
         testStore.createUser("Lena", "Ivanova");
 
-        Assert.assertEquals(user1, UserStorage.getStore().get(1L));
+        Assert.assertEquals(user1, UserStorage.getStore().get(7L));
 
     }
 
@@ -72,7 +72,7 @@ public class UserStorageTest {
 
         testStore.createUser("Lena", "Ivanova", phoneBook);
 
-        Assert.assertEquals(userP1, UserStorage.getStore().get(1L));
+        Assert.assertEquals(userP1, UserStorage.getStore().get(7L));
     }
 
     @Test
