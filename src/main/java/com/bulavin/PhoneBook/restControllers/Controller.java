@@ -22,8 +22,8 @@ public class Controller {
     }
 
     @PostMapping("/createUser")
-    public void createUser(@RequestBody User user){
-        userStorage.createUser(user.getFirstName(), user.getLastName(), user.getPhoneBook());
+    public String createUser(@RequestBody User user){
+        return userStorage.createUser(user.getFirstName(), user.getLastName(), user.getPhoneBook());
     }
 
     @GetMapping("/getAllUser")

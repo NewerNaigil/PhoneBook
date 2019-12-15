@@ -22,9 +22,15 @@ public class UserStorage {
         store.put(key, new User(firstName, lastName));
     }
 
-    public void createUser(String firstName, String lastName, List<PhoneBookRecord> phoneBook){
+    public String createUser(String firstName, String lastName, List<PhoneBookRecord> phoneBook){
         ++key;
-        store.put(key, new User(firstName, lastName, phoneBook));
+        if (firstName == null){
+            return "Нет имени";
+        }
+        else {
+            store.put(key, new User(firstName, lastName, phoneBook));
+            return "Пользователь создан. Имя: " + firstName;
+        }
     }
 
     public void deleteUser(long userId){

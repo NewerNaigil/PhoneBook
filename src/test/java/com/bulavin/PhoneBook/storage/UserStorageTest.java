@@ -48,9 +48,6 @@ public class UserStorageTest {
         phoneBook.add(record1);
         phoneBook.add(record2);
         phoneBook.add(record3);
-
-
-
     }
 
     @After
@@ -59,7 +56,6 @@ public class UserStorageTest {
         UserStorage.setKey(0);
         PhoneBookRecord.setIdCounter(0L);
     }
-
 
     @Test
     public void createUser() {
