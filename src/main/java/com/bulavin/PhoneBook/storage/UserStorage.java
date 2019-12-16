@@ -74,8 +74,15 @@ public class UserStorage {
 
     // Методы для работы с телефонной книгой!
 
-    public void createRecord(long userId, String recordName, String recordNumber){
-        store.get(userId).getPhoneBook().add(new PhoneBookRecord(recordName, recordNumber));
+    public String createRecord(long userId, String recordName, String recordNumber){
+        if(store.containsKey(userId)){
+            store.get(userId).getPhoneBook().add(new PhoneBookRecord(recordName, recordNumber));
+            return "Телефонная запись добавлена";
+        }
+        else {
+            return "Пользователь с ID: "+userId+" не существует.";
+        }
+
     }
 
     public PhoneBookRecord getRecordById(long userId, long recordId){
@@ -88,18 +95,22 @@ public class UserStorage {
     }
 
     public void deleteRecord(long userId, long recordId){
-        PhoneBookRecord val = null;
         store.get(userId).getPhoneBook().removeIf(records -> records.getRecordId() == recordId);
     }
 
-    public void pathRecord(long userId, long recordId, String recordName, String recordNumber) {
-        for (PhoneBookRecord records : store.get(userId).getPhoneBook()) {
-            if (records.getRecordId() == recordId) {
-                records.setRecordName(recordName);
-                records.setRecordNumber(recordNumber);
-                return;
+    public String pathRecord(long userId, long recordId, String recordName, String recordNumber){
+        if (store.containsKey(userId)){
+            for (PhoneBookRecord records : store.get(userId).getPhoneBook()) {
+                if (records.getRecordId() == recordId) {
+                    records.setRecordName(recordName);
+                    records.setRecordNumber(recordNumber);
+                    return "Телефонная запись обновлена";
+                }
             }
+            return "Телефонная записи с ID: "+recordId+" не существует.";
         }
+        else
+            return "Пользователь с ID: "+userId+" не существует.";
     }
 
     public List<PhoneBookRecord> getAllRecordsUser(long userId){
@@ -120,12 +131,4 @@ public class UserStorage {
     public static Map<Long, User> getStore() {
         return store;
     }
-
-//    public static long getKey() {
-//        return key;
-//    }
-//
-//    public static void setKey(long key) {
-//        UserStorage.key = key;
-//    }
 }

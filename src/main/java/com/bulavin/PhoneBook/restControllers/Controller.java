@@ -58,10 +58,10 @@ public class Controller {
 
 
     @PostMapping("/createRecord")
-    public void createRecord(@RequestParam long userId,
+    public String createRecord(@RequestParam long userId,
                              @RequestParam String recordName,
                              @RequestParam String recordNumber){
-        userStorage.createRecord(userId, recordName, recordNumber);
+        return userStorage.createRecord(userId, recordName, recordNumber);
     }
 
     @GetMapping("/getRecord/{userId}/{recordId}")
@@ -77,11 +77,11 @@ public class Controller {
     }
 
     @PatchMapping("/patchRecord")
-    public void patchRecord(@RequestParam long userId,
+    public String patchRecord(@RequestParam long userId,
                             @RequestParam long recordId,
                             @RequestParam String recordName,
                             @RequestParam String recordNumber){
-        userStorage.pathRecord(userId, recordId, recordName, recordNumber);
+        return userStorage.pathRecord(userId, recordId, recordName, recordNumber);
     }
 
     @GetMapping("/getAllRecordsUser/{userId}")
