@@ -3,9 +3,7 @@ package com.bulavin.PhoneBook.storage;
 import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,170 +55,170 @@ public class UserStorageTest {
         PhoneBookRecord.setIdCounter(0L);
     }
 
-    @Test
-    public void createUser() {
-
-        testStore.createUser("Lena", "Ivanova");
-
-        Assert.assertEquals(user1, UserStorage.getStore().get(7L));
-
-    }
-
-    @Test
-    public void testCreateUser() {
-
-
-        testStore.createUser("Lena", "Ivanova", phoneBook);
-
-        Assert.assertEquals(userP1, UserStorage.getStore().get(7L));
-    }
-
-    @Test
-    public void deleteUser() {
-
-        UserStorage.getStore().put(1L, userP1);
-
-        testStore.deleteUser(1);
-
-        Assert.assertNull(UserStorage.getStore().get(1L));
-    }
-
-    @Test
-    public void getUserById() {
-
-        UserStorage.getStore().put(1L, userP1);
-        User actualUser = testStore.getUserById(1L);
-
-        Assert.assertEquals(userP1, actualUser);
-    }
-
-    @Test
-    public void getAllUser() {
-
-        UserStorage.getStore().put(1L, userP1);
-        UserStorage.getStore().put(2L, userP2);
-
-        List<User> actual = new ArrayList<>(testStore.getAllUser().values());
-
-        List<User> expected = new ArrayList<>();
-        expected.add(userP1);
-        expected.add(userP2);
-
-        Assert.assertEquals(expected, actual);
-
-    }
-
-    @Test
-    public void pathUser() {
-
-        UserStorage.getStore().put(1L, userP1);
-
-        testStore.pathUser(1, "Masha", "Smirnova");
-
-        User actual = new User ("Masha","Smirnova", phoneBook );
-
-        Assert.assertEquals(actual, UserStorage.getStore().get(1L));
-
-    }
-
-    @Test
-    public void searchUser() {
-
-        UserStorage.getStore().put(1L, userP1);
-        UserStorage.getStore().put(2L, userP2);
-        UserStorage.getStore().put(3L, userP3);
-
-        List<User> actual = new ArrayList<>(testStore.searchUser("Vo"));
-        List<User> expected = new ArrayList<>();
-        expected.add(userP2);
-        expected.add(userP3);
-
-        Assert.assertEquals(actual, expected);
-    }
-
-
-
-    @Test
-    public void createRecord() {
-
-        UserStorage.getStore().put(1L, userP1);
-
-        testStore.createRecord(1, "Sveta", "444444");
-        PhoneBookRecord expected = new PhoneBookRecord("Sveta", "444444");
-        expected.setRecordId(4L);
-
-        Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook().get(3), expected);
-    }
-
-    @Test
-    public void getRecordById() {
-
-        UserStorage.getStore().put(1L, userP1);
-
-        PhoneBookRecord expected = testStore.getRecordById(1, 2);
-        PhoneBookRecord actual = new PhoneBookRecord("Misha","222222");
-        actual.setRecordId(2L);
-
-        Assert.assertEquals(actual, expected);
-    }
-
-    @Test
-    public void deleteRecord() {
-
-        UserStorage.getStore().put(1L, userP1);
-
-        testStore.deleteRecord(1,1);
-
-        List<PhoneBookRecord> expected = new ArrayList<>();
-        expected.add(new PhoneBookRecord("Misha","222222"));
-        expected.get(0).setRecordId(2L);
-        expected.add(new PhoneBookRecord("Dasha", "333333"));
-        expected.get(1).setRecordId(3L);
-
-        Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook(), expected);
-    }
-
-    @Test
-    public void pathRecord() {
-
-        UserStorage.getStore().put(1L, userP1);
-
-        testStore.pathRecord(1, 1, "Sveta", "444444");
-
-        PhoneBookRecord expected = new PhoneBookRecord("Sveta", "444444");
-        expected.setRecordId(1L);
-
-        Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook().get(0), expected);
-    }
-
-    @Test
-    public void getAllRecordsUser() {
-
-        UserStorage.getStore().put(1L, userP1);
-
-        List<PhoneBookRecord> actual = new ArrayList<>(testStore.getAllRecordsUser(1));
-        List<PhoneBookRecord> expected = new ArrayList<>();
-        expected.add(new PhoneBookRecord("Petya", "111111"));
-        expected.get(0).setRecordId(1L);
-        expected.add(new PhoneBookRecord("Misha", "222222"));
-        expected.get(1).setRecordId(2L);
-        expected.add(new PhoneBookRecord("Dasha", "333333"));
-        expected.get(2).setRecordId(3L);
-
-        Assert.assertEquals(actual, expected);
-
-    }
-
-    @Test
-    public void searchRecord() {
-
-        UserStorage.getStore().put(1L, userP1);
-
-        List<PhoneBookRecord> actual = new ArrayList<>(testStore.searchRecord(1, "222222"));
-        List<PhoneBookRecord> expected = new ArrayList<>();
-        expected.add(0, new PhoneBookRecord ("Misha", "222222"));
-        expected.get(0).setRecordId(2L);
-
-        Assert.assertEquals(expected, actual);
-    }
+//    @Test
+//    public void createUser() {
+//
+//        testStore.createUser("Lena", "Ivanova");
+//
+//        Assert.assertEquals(user1, UserStorage.getStore().get(7L));
+//
+//    }
+//
+//    @Test
+//    public void testCreateUser() {
+//
+//
+//        testStore.createUser("Lena", "Ivanova", phoneBook);
+//
+//        Assert.assertEquals(userP1, UserStorage.getStore().get(7L));
+//    }
+//
+//    @Test
+//    public void deleteUser() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//
+//        testStore.deleteUser(1);
+//
+//        Assert.assertNull(UserStorage.getStore().get(1L));
+//    }
+//
+//    @Test
+//    public void getUserById() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//        User actualUser = testStore.getUserById(1L);
+//
+//        Assert.assertEquals(userP1, actualUser);
+//    }
+//
+//    @Test
+//    public void getAllUser() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//        UserStorage.getStore().put(2L, userP2);
+//
+//        List<User> actual = new ArrayList<>(testStore.getAllUser().values());
+//
+//        List<User> expected = new ArrayList<>();
+//        expected.add(userP1);
+//        expected.add(userP2);
+//
+//        Assert.assertEquals(expected, actual);
+//
+//    }
+//
+//    @Test
+//    public void pathUser() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//
+//        testStore.pathUser(1, "Masha", "Smirnova");
+//
+//        User actual = new User ("Masha","Smirnova", phoneBook );
+//
+//        Assert.assertEquals(actual, UserStorage.getStore().get(1L));
+//
+//    }
+//
+//    @Test
+//    public void searchUser() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//        UserStorage.getStore().put(2L, userP2);
+//        UserStorage.getStore().put(3L, userP3);
+//
+//        List<User> actual = new ArrayList<>(testStore.searchUser("Vo"));
+//        List<User> expected = new ArrayList<>();
+//        expected.add(userP2);
+//        expected.add(userP3);
+//
+//        Assert.assertEquals(actual, expected);
+//    }
+//
+//
+//
+//    @Test
+//    public void createRecord() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//
+//        testStore.createRecord(1, "Sveta", "444444");
+//        PhoneBookRecord expected = new PhoneBookRecord("Sveta", "444444");
+//        expected.setRecordId(4L);
+//
+//        Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook().get(3), expected);
+//    }
+//
+//    @Test
+//    public void getRecordById() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//
+//        PhoneBookRecord expected = testStore.getRecordById(1, 2);
+//        PhoneBookRecord actual = new PhoneBookRecord("Misha","222222");
+//        actual.setRecordId(2L);
+//
+//        Assert.assertEquals(actual, expected);
+//    }
+//
+//    @Test
+//    public void deleteRecord() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//
+//        testStore.deleteRecord(1,1);
+//
+//        List<PhoneBookRecord> expected = new ArrayList<>();
+//        expected.add(new PhoneBookRecord("Misha","222222"));
+//        expected.get(0).setRecordId(2L);
+//        expected.add(new PhoneBookRecord("Dasha", "333333"));
+//        expected.get(1).setRecordId(3L);
+//
+//        Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook(), expected);
+//    }
+//
+//    @Test
+//    public void pathRecord() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//
+//        testStore.pathRecord(1, 1, "Sveta", "444444");
+//
+//        PhoneBookRecord expected = new PhoneBookRecord("Sveta", "444444");
+//        expected.setRecordId(1L);
+//
+//        Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook().get(0), expected);
+//    }
+//
+//    @Test
+//    public void getAllRecordsUser() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//
+//        List<PhoneBookRecord> actual = new ArrayList<>(testStore.getAllRecordsUser(1));
+//        List<PhoneBookRecord> expected = new ArrayList<>();
+//        expected.add(new PhoneBookRecord("Petya", "111111"));
+//        expected.get(0).setRecordId(1L);
+//        expected.add(new PhoneBookRecord("Misha", "222222"));
+//        expected.get(1).setRecordId(2L);
+//        expected.add(new PhoneBookRecord("Dasha", "333333"));
+//        expected.get(2).setRecordId(3L);
+//
+//        Assert.assertEquals(actual, expected);
+//
+//    }
+//
+//    @Test
+//    public void searchRecord() {
+//
+//        UserStorage.getStore().put(1L, userP1);
+//
+//        List<PhoneBookRecord> actual = new ArrayList<>(testStore.searchRecord(1, "222222"));
+//        List<PhoneBookRecord> expected = new ArrayList<>();
+//        expected.add(0, new PhoneBookRecord ("Misha", "222222"));
+//        expected.get(0).setRecordId(2L);
+//
+//        Assert.assertEquals(expected, actual);
+//    }
 }
