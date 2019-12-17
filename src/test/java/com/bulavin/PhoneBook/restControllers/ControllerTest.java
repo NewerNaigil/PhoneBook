@@ -28,9 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ControllerTest {
 
-    @Autowired
-    UserStorage testStore = new UserStorage();
-    List<PhoneBookRecord> phoneBook;
+
+    User wrongUser;
 
     User userP1;
     User userP2;
@@ -43,6 +42,9 @@ public class ControllerTest {
 //    JSONArray jsonArray = new JSONArray();
 
     @Autowired
+    private UserStorage testStore;
+
+    @Autowired
     private Controller controller;
 
     @Autowired
@@ -52,9 +54,9 @@ public class ControllerTest {
     private ObjectMapper objectMapper;
 
     @Before
-    public void setUp(){
+    public void setUp() {
 
-        phoneBook = new ArrayList<>();
+        List<PhoneBookRecord> phoneBook = new ArrayList<>();
 
         record1 = new PhoneBookRecord("Petya", "111111");
         record2 = new PhoneBookRecord("Misha", "222222");
@@ -67,15 +69,9 @@ public class ControllerTest {
         userP1 = new User("Lena", "Ivanova", phoneBook);
         userP2 = new User("Vova", "Makarov", phoneBook);
         userP3 = new User("Volfgan", "Kurt", phoneBook);
+
+        wrongUser = new User(null, "wrong", phoneBook);
     }
-//          Корректировать!!!!
-//    @Test
-//    public void createUser() throws Exception {
-//        this.mockMvc.perform(post("/create").param("firstName", "Lena")
-//                .param("lastName", "Makarova"))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//    }
 
     @Test
     public void testCreateUser() throws Exception {
@@ -83,13 +79,21 @@ public class ControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userP1)))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("Пользователь создан. Имя: Lena"));
+                .andExpect(status().isOk());
 
+        this.mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(wrongUser)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     public void getAllUser() throws Exception {
+
+        this.mockMvc.perform(get("/users").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
 
         UserStorage.getStore().put(1L, userP1);
         UserStorage.getStore().put(2L, userP2);
@@ -101,7 +105,11 @@ public class ControllerTest {
     }
 
     @Test
-    public void getUserById() throws Exception{
+    public void getUserById() throws Exception {
+
+        this.mockMvc.perform(get("/users/1").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
 
         UserStorage.getStore().put(1L, userP1);
 
@@ -118,150 +126,177 @@ public class ControllerTest {
 
         this.mockMvc.perform(delete("/users").param("userId", "1"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("Пользователь удалён"));
+                .andExpect(status().isOk());
 
         this.mockMvc.perform(delete("/users").param("userId", "2"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("Пользователь с ID: 2 не существует"));
+                .andExpect(status().isNotFound());
 
     }
-//
-//    @Test
-//    public void pathUser() throws Exception {
-//
-//        UserStorage.getStore().put(1L, userP1);
-//
-//        this.mockMvc.perform(patch("/pathUser")
-//                .param("userId", "1")
-//                .param("firstName", "Vika")
-//                .param("lastName", "Simon"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Пользователь с ID: 1 изменён."));
-//
-//        this.mockMvc.perform(patch("/pathUser")
-//                .param("userId", "2")
-//                .param("firstName", "Vika")
-//                .param("lastName", "Simon"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Пользователь с ID: 2 не существует."));
-//    }
-//
-//    @Test
-//    public void searchUser() throws Exception{
-//
-//        UserStorage.getStore().put(1L, userP1);
-//        UserStorage.getStore().put(2L, userP2);
-//        UserStorage.getStore().put(3L, userP3);
-//
-//        this.mockMvc.perform(get("/searchUser/vo").accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().json("[{\"userID\":2,\"firstName\":\"Vova\",\"lastName\":\"Makarov\",\"phoneBook\":[{\"recordId\":1,\"recordName\":\"Petya\",\"recordNumber\":\"111111\"},{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"},{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]},{\"userID\":3,\"firstName\":\"Volfgan\",\"lastName\":\"Kurt\",\"phoneBook\":[{\"recordId\":1,\"recordName\":\"Petya\",\"recordNumber\":\"111111\"},{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"},{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]}]"));
-//
-//    }
-//
-//    @Test
-//    public void createRecord() throws Exception {
-//
-//        UserStorage.getStore().put(1L, userP1);
-//
-//        this.mockMvc.perform(post("/createRecord")
-//                .param("userId", "1")
-//                .param("recordName", "Lilu")
-//                .param("recordNumber", "332211"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Телефонная запись добавлена"));
-//
-//        this.mockMvc.perform(post("/createRecord")
-//                .param("userId", "2")
-//                .param("recordName", "Lilu")
-//                .param("recordNumber", "332211"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Пользователь с ID: 2 не существует."));
-//    }
-//
-//    @Test
-//    public void getRecordById() throws Exception {
-//
-//        UserStorage.getStore().put(1L, userP1);
-//
-//        this.mockMvc.perform(get("/getRecord/1/2").accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().json("{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"}"));
-//    }
-//
-//    @Test
-//    public void deleteRecord() throws Exception {
-//
-//        UserStorage.getStore().put(1L, userP1);
-//
-//        this.mockMvc.perform(delete("/deleteRecord")
-//                .param("userId", "1")
-//                .param("recordId", "2"))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//
-//    }
-//
-//    @Test
-//    public void patchRecord() throws Exception {
-//
-//        UserStorage.getStore().put(1L, userP1);
-//
-//        this.mockMvc.perform(patch("/patchRecord")
-//                .param("userId", "1")
-//                .param("recordId", "2")
-//                .param("recordName","Lilu")
-//                .param("recordNumber", "332211"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Телефонная запись обновлена"));
-//
-//        this.mockMvc.perform(patch("/patchRecord")
-//                .param("userId", "2")
-//                .param("recordId", "2")
-//                .param("recordName","Lilu")
-//                .param("recordNumber", "332211"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Пользователь с ID: 2 не существует."));
-//
-//        this.mockMvc.perform(patch("/patchRecord")
-//                .param("userId", "1")
-//                .param("recordId", "4")
-//                .param("recordName","Lilu")
-//                .param("recordNumber", "332211"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Телефонная записи с ID: 4 не существует."));
-//    }
-//
-//    @Test
-//    public void getAllRecordsUser() throws Exception {
-//
-//        UserStorage.getStore().put(1L, userP1);
-//
-//        this.mockMvc.perform(get("/getAllRecordsUser/1").accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().json("[{\"recordId\":1,\"recordName\":\"Petya\",\"recordNumber\":\"111111\"},{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"},{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]"));
-//    }
-//
-//    @Test
-//    public void searchRecord() throws Exception {
-//
-//        UserStorage.getStore().put(1L, userP1);
-//
-//        this.mockMvc.perform(get("/searchRecord/1/333333").accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().json("[{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]"));
-//    }
+
+    @Test
+    public void pathUser() throws Exception {
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(patch("/users")
+                .param("userId", "1")
+                .param("firstName", "Vika")
+                .param("lastName", "Simon"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        this.mockMvc.perform(patch("/users")
+                .param("userId", "2")
+                .param("firstName", "Vika")
+                .param("lastName", "Simon"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void searchUser() throws Exception {
+
+        this.mockMvc.perform(get("/users/search/vo").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(2L, userP2);
+        UserStorage.getStore().put(3L, userP3);
+
+        this.mockMvc.perform(get("/users/search/vo").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"userID\":2,\"firstName\":\"Vova\",\"lastName\":\"Makarov\",\"phoneBook\":[{\"recordId\":1,\"recordName\":\"Petya\",\"recordNumber\":\"111111\"},{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"},{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]},{\"userID\":3,\"firstName\":\"Volfgan\",\"lastName\":\"Kurt\",\"phoneBook\":[{\"recordId\":1,\"recordName\":\"Petya\",\"recordNumber\":\"111111\"},{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"},{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]}]"));
+
+    }
+
+    @Test
+    public void createRecord() throws Exception {
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(post("/records")
+                .param("userId", "1")
+                .param("recordName", "Lilu")
+                .param("recordNumber", "332211"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        this.mockMvc.perform(post("/createRecord")
+                .param("userId", "2")
+                .param("recordName", "Lilu")
+                .param("recordNumber", "332211"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void getRecordById() throws Exception {
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(get("/records/1/2").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"}"));
+
+        this.mockMvc.perform(get("/records/2/2").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        this.mockMvc.perform(get("/records/1/4").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void deleteRecord() throws Exception {
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(delete("/records")
+                .param("userId", "1")
+                .param("recordId", "2"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        this.mockMvc.perform(delete("/records")
+                .param("userId", "2")
+                .param("recordId", "2"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        this.mockMvc.perform(delete("/records")
+                .param("userId", "1")
+                .param("recordId", "4"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    public void patchRecord() throws Exception {
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(patch("/records")
+                .param("userId", "1")
+                .param("recordId", "2")
+                .param("recordName", "Lilu")
+                .param("recordNumber", "332211"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        this.mockMvc.perform(patch("/records")
+                .param("userId", "2")
+                .param("recordId", "2")
+                .param("recordName", "Lilu")
+                .param("recordNumber", "332211"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        this.mockMvc.perform(patch("/records")
+                .param("userId", "1")
+                .param("recordId", "4")
+                .param("recordName", "Lilu")
+                .param("recordNumber", "332211"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void getAllRecordsUser() throws Exception {
+
+        this.mockMvc.perform(get("/records/1").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(get("/records/1").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"recordId\":1,\"recordName\":\"Petya\",\"recordNumber\":\"111111\"},{\"recordId\":2,\"recordName\":\"Misha\",\"recordNumber\":\"222222\"},{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]"));
+    }
+
+    @Test
+    public void searchRecord() throws Exception {
+
+        this.mockMvc.perform(get("/records/search/1/333333").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        UserStorage.getStore().put(1L, userP1);
+
+        this.mockMvc.perform(get("/records/search/1/233333").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        this.mockMvc.perform(get("/records/search/1/333333").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"recordId\":3,\"recordName\":\"Dasha\",\"recordNumber\":\"333333\"}]"));
+    }
 }
