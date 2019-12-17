@@ -1,8 +1,8 @@
 package com.bulavin.PhoneBook.storage;
 
-import com.bulavin.PhoneBook.exceptions.NoNameUserException;
-import com.bulavin.PhoneBook.exceptions.NotFoundRecordException;
-import com.bulavin.PhoneBook.exceptions.NotFoundUserException;
+import com.bulavin.PhoneBook.exceptions.UserNoNameException;
+import com.bulavin.PhoneBook.exceptions.RecordNotFoundException;
+import com.bulavin.PhoneBook.exceptions.UserNotFoundException;
 import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import org.springframework.stereotype.Component;
@@ -21,14 +21,14 @@ public class UserStorage {
     public void createUser(String firstName, String lastName, List<PhoneBookRecord> phoneBook) {
         User user = new User(firstName, lastName, phoneBook);
         if (user.getFirstName() == null) {
-            throw new NoNameUserException();
+            throw new UserNoNameException();
         }
         store.put(user.getUserID(), user);
     }
 
     public void deleteUser(long userId) {
         if (store.get(userId) == null) {
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
         }
         store.remove(userId);
     }
@@ -36,22 +36,19 @@ public class UserStorage {
     public User getUserById(long userId) {
         User user = store.get(userId);
         if (user == null) {
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
         }
         return user;
     }
 
 
     public Map<Long, User> getAllUser() {
-        if (store.size() == 0) {
-            throw new NotFoundUserException();
-        }
         return store;
     }
 
     public void pathUser(long userId, String firstName, String lastName) {
         if (store.get(userId) == null) {
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
         }
         store.get(userId).setFirstName(firstName);
         store.get(userId).setLastName(lastName);
@@ -65,7 +62,7 @@ public class UserStorage {
             }
         }
         if (userList.isEmpty())
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
         return userList;
     }
 
@@ -76,7 +73,7 @@ public class UserStorage {
         if (store.containsKey(userId)) {
             store.get(userId).getPhoneBook().add(new PhoneBookRecord(recordName, recordNumber));
         } else {
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
         }
 
     }
@@ -88,9 +85,9 @@ public class UserStorage {
                     return records;
                 }
             }
-            throw new NotFoundRecordException();
+            throw new RecordNotFoundException();
         } else {
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
         }
     }
 
@@ -103,9 +100,9 @@ public class UserStorage {
                     return;
                 }
             }
-            throw new NotFoundRecordException();
+            throw new RecordNotFoundException();
         } else
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
     }
 
     public void pathRecord(long userId, long recordId, String recordName, String recordNumber) {
@@ -117,9 +114,9 @@ public class UserStorage {
                     return;
                 }
             }
-            throw new NotFoundRecordException();
+            throw new RecordNotFoundException();
         } else
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
     }
 
     public List<PhoneBookRecord> getAllRecordsUser(long userId){
@@ -127,7 +124,7 @@ public class UserStorage {
             return store.get(userId).getPhoneBook();
         }
         else
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
     }
 
     public List<PhoneBookRecord> searchRecord(long userId, String searchRequest) {
@@ -139,11 +136,11 @@ public class UserStorage {
                 }
             }
             if (recordList.isEmpty()) {
-                throw new NotFoundRecordException();
+                throw new RecordNotFoundException();
             } else
                 return recordList;
         } else
-            throw new NotFoundUserException();
+            throw new UserNotFoundException();
     }
 
 

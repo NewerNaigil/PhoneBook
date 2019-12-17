@@ -31,9 +31,9 @@ public class ControllerTest {
 
     User wrongUser;
 
-    User userP1;
-    User userP2;
-    User userP3;
+    User user1;
+    User user2;
+    User user3;
 
     PhoneBookRecord record1;
     PhoneBookRecord record2;
@@ -66,9 +66,9 @@ public class ControllerTest {
         phoneBook.add(record2);
         phoneBook.add(record3);
 
-        userP1 = new User("Lena", "Ivanova", phoneBook);
-        userP2 = new User("Vova", "Makarov", phoneBook);
-        userP3 = new User("Volfgan", "Kurt", phoneBook);
+        user1 = new User("Lena", "Ivanova", phoneBook);
+        user2 = new User("Vova", "Makarov", phoneBook);
+        user3 = new User("Volfgan", "Kurt", phoneBook);
 
         wrongUser = new User(null, "wrong", phoneBook);
     }
@@ -77,7 +77,7 @@ public class ControllerTest {
     public void testCreateUser() throws Exception {
         this.mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userP1)))
+                .content(objectMapper.writeValueAsString(user1)))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -91,12 +91,8 @@ public class ControllerTest {
     @Test
     public void getAllUser() throws Exception {
 
-        this.mockMvc.perform(get("/users").accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-
-        UserStorage.getStore().put(1L, userP1);
-        UserStorage.getStore().put(2L, userP2);
+        UserStorage.getStore().put(1L, user1);
+        UserStorage.getStore().put(2L, user2);
 
         this.mockMvc.perform(get("/users").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -111,7 +107,7 @@ public class ControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(get("/users/1").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -122,7 +118,7 @@ public class ControllerTest {
     @Test
     public void deleteUser() throws Exception {
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(delete("/users").param("userId", "1"))
                 .andDo(print())
@@ -137,7 +133,7 @@ public class ControllerTest {
     @Test
     public void pathUser() throws Exception {
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(patch("/users")
                 .param("userId", "1")
@@ -161,9 +157,9 @@ public class ControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        UserStorage.getStore().put(1L, userP1);
-        UserStorage.getStore().put(2L, userP2);
-        UserStorage.getStore().put(3L, userP3);
+        UserStorage.getStore().put(1L, user1);
+        UserStorage.getStore().put(2L, user2);
+        UserStorage.getStore().put(3L, user3);
 
         this.mockMvc.perform(get("/users/search/vo").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -175,7 +171,7 @@ public class ControllerTest {
     @Test
     public void createRecord() throws Exception {
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(post("/records")
                 .param("userId", "1")
@@ -195,7 +191,7 @@ public class ControllerTest {
     @Test
     public void getRecordById() throws Exception {
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(get("/records/1/2").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -214,7 +210,7 @@ public class ControllerTest {
     @Test
     public void deleteRecord() throws Exception {
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(delete("/records")
                 .param("userId", "1")
@@ -239,7 +235,7 @@ public class ControllerTest {
     @Test
     public void patchRecord() throws Exception {
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(patch("/records")
                 .param("userId", "1")
@@ -273,7 +269,7 @@ public class ControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(get("/records/1").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -288,7 +284,7 @@ public class ControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        UserStorage.getStore().put(1L, userP1);
+        UserStorage.getStore().put(1L, user1);
 
         this.mockMvc.perform(get("/records/search/1/233333").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
