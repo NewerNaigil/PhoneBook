@@ -13,13 +13,6 @@ public class User {
 
     public User(){}
 
-    public User(String firstName, String lastName){
-        idCounter++;
-        this.userID = idCounter;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public User(String firstName, String lastName, List<PhoneBookRecord> phoneBook) {
         idCounter++;
         this.userID = idCounter;
@@ -66,10 +59,6 @@ public class User {
 
     public List<PhoneBookRecord> getPhoneBook() {
         return phoneBook;
-    }
-
-    public void setPhoneBook(List<PhoneBookRecord> phoneBook) {
-        this.phoneBook = phoneBook;
     }
 
     public static void setIdCounter(long idCounter) {

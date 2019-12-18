@@ -84,7 +84,7 @@ public class ControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user1)))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         this.mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -160,7 +160,7 @@ public class ControllerTest {
 
         this.mockMvc.perform(get("/users/search/vo").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk());
 
         UserStorage.getStore().put(1L, user1);
         UserStorage.getStore().put(2L, user2);
@@ -183,7 +183,7 @@ public class ControllerTest {
                 .param("recordName", "Lilu")
                 .param("recordNumber", "332211"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         this.mockMvc.perform(post("/createRecord")
                 .param("userId", "2")

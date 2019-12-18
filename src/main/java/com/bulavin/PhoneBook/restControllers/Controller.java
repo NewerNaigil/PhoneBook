@@ -18,9 +18,9 @@ public class Controller {
     private UserStorage userStorage;
 
     @PostMapping("/users")
-    public ResponseEntity createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@RequestBody User user){
         userStorage.createUser(user.getFirstName(), user.getLastName(), user.getPhoneBook());
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<User>(HttpStatus.CREATED);
     }
 
     @GetMapping("/users")
@@ -52,11 +52,11 @@ public class Controller {
 
 
     @PostMapping("/records")
-    public ResponseEntity createRecord(@RequestParam long userId,
-                             @RequestParam String recordName,
-                             @RequestParam String recordNumber){
+    public ResponseEntity<PhoneBookRecord> createRecord(@RequestParam long userId,
+                                       @RequestParam String recordName,
+                                       @RequestParam String recordNumber){
         userStorage.createRecord(userId, recordName, recordNumber);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<PhoneBookRecord>(HttpStatus.CREATED);
     }
 
     @GetMapping("/records/{userId}/{recordId}")

@@ -28,10 +28,11 @@ public class UserStorage {
     }
 
     public void deleteUser(long userId) {
-        if (store.get(userId) == null) {
+        if (store.containsKey(userId)) {
+            store.remove(userId);
+        } else {
             throw new UserNotFoundException();
         }
-        store.remove(userId);
     }
 
     public User getUserById(long userId) {
@@ -48,11 +49,12 @@ public class UserStorage {
     }
 
     public void pathUser(long userId, String firstName, String lastName) {
-        if (store.get(userId) == null) {
+        if (store.containsKey(userId)) {
+            store.get(userId).setFirstName(firstName);
+            store.get(userId).setLastName(lastName);
+        } else {
             throw new UserNotFoundException();
         }
-        store.get(userId).setFirstName(firstName);
-        store.get(userId).setLastName(lastName);
     }
 
     public List<User> searchUser(String searchRequest) {
@@ -78,70 +80,66 @@ public class UserStorage {
     }
 
     public PhoneBookRecord getRecordById(long userId, long recordId) {
-        if (store.containsKey(userId)) {
-            for (PhoneBookRecord records : store.get(userId).getPhoneBook()) {
-                if (records.getRecordId() == recordId) {
-                    return records;
-                }
-            }
-            throw new RecordNotFoundException();
-        } else {
+        if (!(store.containsKey(userId))) {
             throw new UserNotFoundException();
         }
+        for (PhoneBookRecord records : store.get(userId).getPhoneBook()) {
+            if (records.getRecordId() == recordId) {
+                return records;
+            }
+        }
+        throw new RecordNotFoundException();
     }
 
-    // Изменить
     public void deleteRecord(long userId, long recordId) {
-        if (store.containsKey(userId)) {
-            for (PhoneBookRecord record : store.get(userId).getPhoneBook()) {
-                if (record.getRecordId() == recordId) {
-                    store.get(userId).getPhoneBook().remove(record);
-                    return;
-                }
-            }
-            throw new RecordNotFoundException();
-        } else {
+        if (!(store.containsKey(userId))) {
             throw new UserNotFoundException();
         }
+        for (PhoneBookRecord record : store.get(userId).getPhoneBook()) {
+            if (record.getRecordId() == recordId) {
+                store.get(userId).getPhoneBook().remove(record);
+                return;
+            }
+        }
+        throw new RecordNotFoundException();
     }
 
     public void pathRecord(long userId, long recordId, String recordName, String recordNumber) {
-        if (store.containsKey(userId)) {
-            for (PhoneBookRecord records : store.get(userId).getPhoneBook()) {
-                if (records.getRecordId() == recordId) {
-                    records.setRecordName(recordName);
-                    records.setRecordNumber(recordNumber);
-                    return;
-                }
-            }
-            throw new RecordNotFoundException();
-        } else
+        if (!(store.containsKey(userId))) {
             throw new UserNotFoundException();
+        }
+        for (PhoneBookRecord records : store.get(userId).getPhoneBook()) {
+            if (records.getRecordId() == recordId) {
+                records.setRecordName(recordName);
+                records.setRecordNumber(recordNumber);
+                return;
+            }
+        }
+        throw new RecordNotFoundException();
+
     }
 
-    public List<PhoneBookRecord> getAllRecordsUser(long userId){
+    public List<PhoneBookRecord> getAllRecordsUser(long userId) {
         if (store.containsKey(userId)) {
             return store.get(userId).getPhoneBook();
-        }
-        else
+        } else
             throw new UserNotFoundException();
     }
 
     public List<PhoneBookRecord> searchRecord(long userId, String searchRequest) {
         List<PhoneBookRecord> recordList = new ArrayList<>();
-        if (store.containsKey(userId)) {
-            for (PhoneBookRecord record : store.get(userId).getPhoneBook()) {
-                if (record.getRecordNumber().equals(searchRequest)) {
-                    recordList.add(record);
-                }
-            }
-            if (recordList.isEmpty()) {
-                throw new RecordNotFoundException();
-            } else
-                return recordList;
-        } else {
+        if (!(store.containsKey(userId))) {
             throw new UserNotFoundException();
         }
+        for (PhoneBookRecord record : store.get(userId).getPhoneBook()) {
+            if (record.getRecordNumber().equals(searchRequest)) {
+                recordList.add(record);
+            }
+        }
+        if (recordList.isEmpty()) {
+            throw new RecordNotFoundException();
+        } else
+            return recordList;
     }
 
 
