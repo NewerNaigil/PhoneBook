@@ -62,9 +62,6 @@ public class UserStorage {
                 userList.add(user);
             }
         }
-        if (userList.isEmpty()) {
-            throw new UserNotFoundException();
-        }
         return userList;
     }
 
