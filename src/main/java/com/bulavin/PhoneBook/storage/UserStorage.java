@@ -1,7 +1,7 @@
 package com.bulavin.PhoneBook.storage;
 
-import com.bulavin.PhoneBook.exceptions.UserNoNameException;
 import com.bulavin.PhoneBook.exceptions.RecordNotFoundException;
+import com.bulavin.PhoneBook.exceptions.UserNoNameException;
 import com.bulavin.PhoneBook.exceptions.UserNotFoundException;
 import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
@@ -24,6 +24,7 @@ public class UserStorage {
             throw new UserNoNameException();
         }
         store.put(user.getUserID(), user);
+
     }
 
     public void deleteUser(long userId) {
@@ -61,8 +62,9 @@ public class UserStorage {
                 userList.add(user);
             }
         }
-        if (userList.isEmpty())
+        if (userList.isEmpty()) {
             throw new UserNotFoundException();
+        }
         return userList;
     }
 
@@ -101,8 +103,9 @@ public class UserStorage {
                 }
             }
             throw new RecordNotFoundException();
-        } else
+        } else {
             throw new UserNotFoundException();
+        }
     }
 
     public void pathRecord(long userId, long recordId, String recordName, String recordNumber) {
@@ -139,8 +142,9 @@ public class UserStorage {
                 throw new RecordNotFoundException();
             } else
                 return recordList;
-        } else
+        } else {
             throw new UserNotFoundException();
+        }
     }
 
 

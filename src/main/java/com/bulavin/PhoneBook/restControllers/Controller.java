@@ -4,6 +4,8 @@ import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import com.bulavin.PhoneBook.storage.UserStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,9 @@ public class Controller {
     private UserStorage userStorage;
 
     @PostMapping("/users")
-    public void createUser(@RequestBody User user){
+    public ResponseEntity createUser(@RequestBody User user){
         userStorage.createUser(user.getFirstName(), user.getLastName(), user.getPhoneBook());
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @GetMapping("/users")
@@ -49,10 +52,11 @@ public class Controller {
 
 
     @PostMapping("/records")
-    public void createRecord(@RequestParam long userId,
+    public ResponseEntity createRecord(@RequestParam long userId,
                              @RequestParam String recordName,
                              @RequestParam String recordNumber){
         userStorage.createRecord(userId, recordName, recordNumber);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @GetMapping("/records/{userId}/{recordId}")
@@ -85,6 +89,4 @@ public class Controller {
                                               @PathVariable String searchRequest){
         return userStorage.searchRecord(userId, searchRequest);
     }
-
-
 }

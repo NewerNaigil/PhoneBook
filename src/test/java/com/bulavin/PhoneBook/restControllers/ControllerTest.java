@@ -4,6 +4,7 @@ import com.bulavin.PhoneBook.model.PhoneBookRecord;
 import com.bulavin.PhoneBook.model.User;
 import com.bulavin.PhoneBook.storage.UserStorage;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ControllerTest {
 
-
     User wrongUser;
 
     User user1;
@@ -38,8 +38,6 @@ public class ControllerTest {
     PhoneBookRecord record1;
     PhoneBookRecord record2;
     PhoneBookRecord record3;
-
-//    JSONArray jsonArray = new JSONArray();
 
     @Autowired
     private UserStorage testStore;
@@ -71,6 +69,13 @@ public class ControllerTest {
         user3 = new User("Volfgan", "Kurt", phoneBook);
 
         wrongUser = new User(null, "wrong", phoneBook);
+    }
+
+    @After
+    public void cleanUp(){
+        UserStorage.getStore().clear();
+        User.setIdCounter(0);
+        PhoneBookRecord.setIdCounter(0L);
     }
 
     @Test
