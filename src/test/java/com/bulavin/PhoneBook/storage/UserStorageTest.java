@@ -54,6 +54,8 @@ public class UserStorageTest {
 
         testStore.createUser("Lena", "Ivanova", phoneBook);
 
+
+
         Assert.assertEquals(user1, UserStorage.getStore().get(4L));
     }
 

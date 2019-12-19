@@ -33,7 +33,8 @@ public class User {
         }
 
         User user = (User) o;
-        return firstName.equals(user.firstName) &&
+        return userID == user.userID &&
+                firstName.equals(user.firstName) &&
                 lastName.equals(user.lastName) &&
                 phoneBook.equals(user.phoneBook);
     }
@@ -45,6 +46,10 @@ public class User {
 
     public long getUserID() {
         return userID;
+    }
+
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 
     public String getFirstName() {
