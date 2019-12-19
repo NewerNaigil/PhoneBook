@@ -26,23 +26,19 @@ public class PhoneBookRecord {
         }
 
         PhoneBookRecord record = (PhoneBookRecord) o;
-        return recordId.equals(record.recordId) &&
-                recordName.equals(record.recordName) &&
+        return  recordName.equals(record.recordName) &&
                 recordNumber.equals(record.recordNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recordId, recordName, recordNumber);
+        return Objects.hash(recordName, recordNumber);
     }
 
     public Long getRecordId() {
         return recordId;
     }
 
-    public void setRecordId(Long recordId) {
-        this.recordId = recordId;
-    }
 
     public String getRecordName() {
         return recordName;

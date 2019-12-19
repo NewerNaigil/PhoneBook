@@ -33,23 +33,18 @@ public class User {
         }
 
         User user = (User) o;
-        return userID == user.userID &&
-                firstName.equals(user.firstName) &&
+        return  firstName.equals(user.firstName) &&
                 lastName.equals(user.lastName) &&
                 phoneBook.equals(user.phoneBook);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, firstName, lastName, phoneBook);
+        return Objects.hash(firstName, lastName, phoneBook);
     }
 
     public long getUserID() {
         return userID;
-    }
-
-    public void setUserID(long userID) {
-        this.userID = userID;
     }
 
     public String getFirstName() {

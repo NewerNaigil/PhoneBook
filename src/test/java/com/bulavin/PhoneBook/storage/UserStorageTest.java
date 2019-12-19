@@ -54,8 +54,6 @@ public class UserStorageTest {
 
         testStore.createUser("Lena", "Ivanova", phoneBook);
 
-
-
         Assert.assertEquals(user1, UserStorage.getStore().get(4L));
     }
 
@@ -131,7 +129,6 @@ public class UserStorageTest {
 
         testStore.createRecord(1, "Sveta", "444444");
         PhoneBookRecord expected = new PhoneBookRecord("Sveta", "444444");
-        expected.setRecordId(4L);
 
         Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook().get(3), expected);
     }
@@ -143,7 +140,6 @@ public class UserStorageTest {
 
         PhoneBookRecord expected = testStore.getRecordById(1, 2);
         PhoneBookRecord actual = new PhoneBookRecord("Misha","222222");
-        actual.setRecordId(2L);
 
         Assert.assertEquals(actual, expected);
     }
@@ -157,9 +153,7 @@ public class UserStorageTest {
 
         List<PhoneBookRecord> expected = new ArrayList<>();
         expected.add(new PhoneBookRecord("Misha","222222"));
-        expected.get(0).setRecordId(2L);
         expected.add(new PhoneBookRecord("Dasha", "333333"));
-        expected.get(1).setRecordId(3L);
 
         Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook(), expected);
     }
@@ -172,7 +166,6 @@ public class UserStorageTest {
         testStore.pathRecord(1, 1, "Sveta", "444444");
 
         PhoneBookRecord expected = new PhoneBookRecord("Sveta", "444444");
-        expected.setRecordId(1L);
 
         Assert.assertEquals(UserStorage.getStore().get(1L).getPhoneBook().get(0), expected);
     }
@@ -185,11 +178,8 @@ public class UserStorageTest {
         List<PhoneBookRecord> actual = new ArrayList<>(testStore.getAllRecordsUser(1));
         List<PhoneBookRecord> expected = new ArrayList<>();
         expected.add(new PhoneBookRecord("Petya", "111111"));
-        expected.get(0).setRecordId(1L);
         expected.add(new PhoneBookRecord("Misha", "222222"));
-        expected.get(1).setRecordId(2L);
         expected.add(new PhoneBookRecord("Dasha", "333333"));
-        expected.get(2).setRecordId(3L);
 
         Assert.assertEquals(actual, expected);
 
@@ -203,7 +193,6 @@ public class UserStorageTest {
         List<PhoneBookRecord> actual = new ArrayList<>(testStore.searchRecord(1, "222222"));
         List<PhoneBookRecord> expected = new ArrayList<>();
         expected.add(0, new PhoneBookRecord ("Misha", "222222"));
-        expected.get(0).setRecordId(2L);
 
         Assert.assertEquals(expected, actual);
     }
