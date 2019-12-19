@@ -3,6 +3,7 @@ package com.bulavin.PhoneBook.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class User {
     private long userID;
@@ -35,6 +36,11 @@ public class User {
         return firstName.equals(user.firstName) &&
                 lastName.equals(user.lastName) &&
                 phoneBook.equals(user.phoneBook);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userID, firstName, lastName, phoneBook);
     }
 
     public long getUserID() {

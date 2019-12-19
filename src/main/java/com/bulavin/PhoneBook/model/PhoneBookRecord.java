@@ -1,5 +1,7 @@
 package com.bulavin.PhoneBook.model;
 
+import java.util.Objects;
+
 public class PhoneBookRecord {
     private static Long idCounter = 0L;
     private Long recordId;
@@ -29,6 +31,10 @@ public class PhoneBookRecord {
                 recordNumber.equals(record.recordNumber);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(recordId, recordName, recordNumber);
+    }
 
     public Long getRecordId() {
         return recordId;
